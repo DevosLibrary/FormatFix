@@ -7,23 +7,47 @@ Sicherheit:
 - Kein Tastatur-Mitlesen: Der Hotkey wird bei Windows angemeldet (RegisterHotKey).
   FormatFix bekommt nur Strg+Alt+K gemeldet, keine anderen Tasten.
 - Autostart ohne Admin-Rechte, nur für den eigenen Windows-Benutzer.
+
+Speicher:
+- Im Hintergrund läuft nur das Tray-Symbol mit dem Hotkey (wenige MB).
+- Jedes FormatFix-Fenster ist ein eigener, kurzer Prozess. Beim Schließen wird
+  sein gesamter Speicher (Oberfläche, Bildbearbeitung, MIDI-Erkennung) freigegeben.
 """
 import getpass
 import os
+import subprocess
 import sys
 import threading
 from pathlib import Path
 
-from PySide6.QtCore import QObject, Qt, Signal
+from PySide6.QtCore import QObject, Qt, QTimer, Signal
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
-from gui import FormatFix
 
 APP_NAME = "FormatFix"
 HOTKEY_TEXT = "Strg+Alt+K"
 RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
+
+
+def trim_memory():
+    """Gibt ungenutzten Arbeitsspeicher an Windows zurück (wird bei Bedarf wieder geladen)."""
+    if os.name != "nt":
+        return
+    try:
+        import ctypes
+        handle = ctypes.windll.kernel32.GetCurrentProcess()
+        ctypes.windll.kernel32.K32EmptyWorkingSet(handle)
+    except Exception:
+        pass
+
+
+def window_command(path):
+    """Befehl, der ein FormatFix-Fenster als eigenen Prozess startet."""
+    if getattr(sys, "frozen", False):
+        return [sys.executable, str(path)]
+    return [sys.executable, str(Path(__file__).resolve()), str(path)]
 
 
 def resource(name):
@@ -99,7 +123,6 @@ class Tray(QObject):
     def __init__(self, app):
         super().__init__()
         self.app = app
-        self.windows = []
         icon = QIcon(str(resource("icon.ico")))
         app.setWindowIcon(icon)
 
@@ -152,12 +175,13 @@ class Tray(QObject):
         self.open_window(path)
 
     def open_window(self, path):
-        win = FormatFix(path)
-        self.windows = [w for w in self.windows if w.isVisible()]
-        self.windows.append(win)
-        win.show()
-        win.raise_()
-        win.activateWindow()
+        if os.name == "nt":
+            try:
+                import ctypes
+                ctypes.windll.user32.AllowSetForegroundWindow(-1)  # neues Fenster darf nach vorne
+            except Exception:
+                pass
+        subprocess.Popen(window_command(path), close_fds=True)
 
     def on_tray_click(self, reason):
         if reason == QSystemTrayIcon.ActivationReason.Trigger:
@@ -195,9 +219,12 @@ def main():
     # Direkt mit Datei gestartet (z. B. "Öffnen mit") → nur das Fenster zeigen
     files = [a for a in sys.argv[1:] if os.path.isfile(a)]
     if files:
+        from gui import FormatFix          # Oberfläche erst hier laden, nicht im Hintergrund
         app.setQuitOnLastWindowClosed(True)
         win = FormatFix(files[0])
         win.show()
+        win.raise_()
+        win.activateWindow()
         sys.exit(app.exec())
 
     # Nur einmal gleichzeitig laufen lassen
@@ -218,6 +245,10 @@ def main():
         sys.exit(1)
 
     tray = Tray(app)
+    QTimer.singleShot(4000, trim_memory)                  # nach dem Start aufräumen
+    trim_timer = QTimer()
+    trim_timer.timeout.connect(trim_memory)
+    trim_timer.start(10 * 60 * 1000)                      # und alle 10 Minuten erneut
     server.newConnection.connect(lambda: (server.nextPendingConnection(),
                                           tray.tray.showMessage(APP_NAME, "FormatFix läuft bereits.",
                                                                 QSystemTrayIcon.MessageIcon.Information,
