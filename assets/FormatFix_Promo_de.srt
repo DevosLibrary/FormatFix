@@ -1,0 +1,55 @@
+1
+00:00:00,150 --> 00:00:01,620
+Falsches Dateiformat?
+
+2
+00:00:02,000 --> 00:00:04,200
+Und jetzt irgendwo online hochladen?
+
+3
+00:00:04,640 --> 00:00:06,780
+Moment. Online-Konverter heißt:
+
+4
+00:00:07,090 --> 00:00:09,140
+Deine Datei liegt auf fremden Servern.
+
+5
+00:00:09,530 --> 00:00:10,510
+Es geht auch anders.
+
+6
+00:00:10,800 --> 00:00:11,710
+Mit FormatFix.
+
+7
+00:00:12,010 --> 00:00:13,270
+Hundert Prozent lokal.
+
+8
+00:00:13,680 --> 00:00:14,590
+Datei kopieren.
+
+9
+00:00:14,950 --> 00:00:16,630
+Steuerung, Alt, K.
+
+10
+00:00:16,940 --> 00:00:18,640
+Format anklicken, fertig.
+
+11
+00:00:18,970 --> 00:00:20,270
+Auch mehrere auf einmal.
+
+12
+00:00:20,540 --> 00:00:25,530
+Perfekt fürs Büro: Word zu PDF, Excel, Bilder, Videos, Musik.
+
+13
+00:00:25,820 --> 00:00:30,040
+Kein Upload, keine Cloud, kein Tracking. Deine Daten bleiben bei dir.
+
+14
+00:00:30,320 --> 00:00:32,910
+FormatFix. Kostenlos für Windows.

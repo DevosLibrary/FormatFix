@@ -10,7 +10,8 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" width="320" alt="FormatFix in Aktion">
+  <img src="assets/demo.gif" width="320" alt="FormatFix in Aktion"><br>
+  <a href="assets/FormatFix_Promo.mp4"><b>▶ Video mit Ton ansehen (34 Sek.)</b></a>
 </p>
 
 ---
