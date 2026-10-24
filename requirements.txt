@@ -1,0 +1,6 @@
+pyside6
+pillow
+pypdfium2
+numpy
+onnxruntime
+pyinstaller

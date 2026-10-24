@@ -1,0 +1,80 @@
+FormatFix – Dateien blitzschnell umwandeln
+===========================================
+
+Wandelt Bilder, Videos, Musik, PDFs und Office-Dateien in andere
+Formate um. Alles passiert auf deinem PC – nichts wird hochgeladen.
+
+
+EINRICHTEN (einmalig, 2 Minuten)
+--------------------------------
+1. Den Ordner "FormatFix" aus der ZIP an einen festen Ort kopieren,
+   z. B. nach  Dokumente\FormatFix
+   (Rechtsklick auf die ZIP > "Alle extrahieren")
+
+2. FormatFix.exe doppelklicken.
+
+   Falls ein blaues Fenster "Der Computer wurde durch Windows
+   geschützt" erscheint: Das ist normal bei kleinen Programmen
+   ohne teures Zertifikat.
+   > auf "Weitere Informationen" klicken
+   > dann auf "Trotzdem ausführen"
+
+3. Unten rechts in der Taskleiste erscheint eine kleine bunte Wolke.
+   (Siehst du sie nicht: auf den kleinen Pfeil ^ neben der Uhr klicken.)
+
+4. Damit FormatFix immer bereit ist:
+   Rechtsklick auf die Wolke > "Mit Windows starten" anhaken.
+
+
+BENUTZEN
+--------
+1. Datei im Explorer oder auf dem Desktop anklicken
+2. Strg + C
+3. Strg + Alt + K
+4. Gewünschtes Format anklicken – fertig.
+
+Die neue Datei landet im selben Ordner wie das Original.
+Du kannst mehrere Formate nacheinander anklicken.
+Schließen mit dem X oder mit Esc.
+
+
+FÜR WORD, EXCEL UND POWERPOINT
+------------------------------
+Dafür braucht FormatFix das kostenlose LibreOffice:
+https://de.libreoffice.org/download/download/
+Einfach installieren (alles auf Standard lassen). Bilder, Videos,
+Musik und PDFs funktionieren auch ohne.
+
+
+WAS GEHT?
+---------
+Bilder:  PNG, JPG, WEBP, GIF, BMP, TIFF, ICO  > und als PDF
+Videos:  MP4, MKV, MOV, AVI, WMV, WEBM, FLV  > auch als GIF, MP3 oder WAV
+Musik:   MP3, WAV, FLAC, OGG, M4A, AAC, WMA  > auch als MIDI (Noten)
+PDF:     > Bild (erste Seite) oder Text
+Word:    DOCX, ODT, RTF, TXT  > PDF, HTML …
+Excel:   XLSX, ODS, CSV  > PDF, HTML …
+Folien:  PPTX, ODP  > PDF
+
+
+MIDI-TIPP
+---------
+Aus Musik werden Noten erkannt. Klappt gut mit EINEM Instrument
+oder EINER Stimme (Klavier, Gitarre, Gesang). Ganze Songs mit Band
+ergeben viele falsche Noten, Schlagzeug wird nicht erkannt.
+
+
+DEINSTALLIEREN
+--------------
+Rechtsklick auf die Wolke > Haken bei "Mit Windows starten" entfernen
+> "Beenden" > den Ordner FormatFix löschen. Fertig, keine Reste.
+
+
+SICHERHEIT
+----------
+- FormatFix hat keinen Internetzugriff und sendet nichts.
+- Es liest keine Tastatureingaben mit – Windows meldet ihm nur
+  die Tastenkombination Strg+Alt+K.
+- Der Autostart braucht keine Administratorrechte und gilt nur
+  für deinen Windows-Benutzer.
+- Gib FormatFix nur aus einer Quelle weiter bzw. an, der du vertraust.

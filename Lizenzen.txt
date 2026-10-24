@@ -1,0 +1,42 @@
+FormatFix – Lizenzhinweise
+==========================
+
+FormatFix selbst
+  Kostenlos und frei zur privaten Weitergabe. Der vollständige
+  Quellcode liegt im Ordner "Quellcode".
+
+Mitgelieferte Bestandteile:
+
+FFmpeg (Ordner "ffmpeg")
+  Lizenz: GNU GPL Version 3 – siehe ffmpeg\LICENSE.txt
+  Build von gyan.dev: https://www.gyan.dev/ffmpeg/builds/
+  Quellcode: https://ffmpeg.org/download.html
+  FFmpeg ist ein eigenständiges Programm, das von FormatFix
+  nur aufgerufen wird.
+
+Qt / PySide6 (Benutzeroberfläche)
+  Lizenz: GNU LGPL Version 3 – https://www.qt.io/licensing/
+  Quellcode: https://code.qt.io/
+
+Pillow (Bildbearbeitung)
+  Lizenz: MIT-CMU – https://github.com/python-pillow/Pillow
+
+pypdfium2 / PDFium (PDF-Verarbeitung)
+  Lizenz: Apache 2.0 / BSD-3 – https://github.com/pypdfium2-team/pypdfium2
+
+Basic Pitch / Spotify (Audio > MIDI, Modell nmp.onnx)
+  Lizenz: Apache 2.0 – siehe LICENSE-basic-pitch.txt
+  https://github.com/spotify/basic-pitch
+
+ONNX Runtime (führt das MIDI-Modell aus)
+  Lizenz: MIT – https://github.com/microsoft/onnxruntime
+
+NumPy
+  Lizenz: BSD-3 – https://numpy.org
+
+Python
+  Lizenz: PSF License – https://www.python.org/psf/license/
+
+Optional, nicht mitgeliefert:
+LibreOffice (für Word/Excel/PowerPoint) – MPL 2.0
+  https://de.libreoffice.org/

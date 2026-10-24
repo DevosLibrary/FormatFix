@@ -1,0 +1,22 @@
+# Python-Umgebung und Zwischendateien
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Build-Ergebnisse (die fertige ZIP gehört in die Releases, nicht ins Repository)
+build/
+dist/
+*.spec
+*.zip
+
+# Mitgeliefertes ffmpeg (wird beim Build dazugelegt)
+ffmpeg/
+
+# Editor
+.idea/
+.vscode/
+
+# Alte Entwicklungsdateien
+hotkey.py
+gui_tkinter_alt.py
