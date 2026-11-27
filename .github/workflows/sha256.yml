@@ -1,0 +1,77 @@
+# Berechnet bei jedem veröffentlichten Release die SHA-256-Prüfsummen
+# (ZIP und die FormatFix.exe darin) und schreibt sie in die Release-Beschreibung.
+# Läuft automatisch beim Veröffentlichen eines Releases (und einmal, wenn diese
+# Datei auf main landet – dann fürs neueste Release). Von Hand neu starten:
+# GitHub › Actions › „SHA-256 veröffentlichen“ › Run workflow (Tag leer = neuestes).
+name: SHA-256 veröffentlichen
+
+on:
+  release:
+    types: [published]
+  push:
+    branches: [main]
+    paths: [".github/workflows/sha256.yml"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release-Tag, z. B. v1.0.1 (leer = neuestes Release)"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  hashes:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Release-Dateien laden
+        run: |
+          if [ -z "$TAG" ]; then
+            TAG=$(gh release view --repo "$REPO" --json tagName -q .tagName)
+            echo "TAG=$TAG" >> "$GITHUB_ENV"
+          fi
+          mkdir assets
+          gh release download "$TAG" --repo "$REPO" --dir assets
+
+      - name: Prüfsummen berechnen und veröffentlichen
+        run: |
+          python3 - <<'EOF'
+          import hashlib, os, pathlib, subprocess, zipfile
+
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+
+          rows = []
+          for f in sorted(pathlib.Path("assets").iterdir()):
+              rows.append((f.name, sha(f.read_bytes())))
+              if f.suffix.lower() == ".zip":
+                  with zipfile.ZipFile(f) as z:
+                      for n in z.namelist():
+                          if n.lower().replace("\\", "/").endswith(".exe"):
+                              rows.append((f"{f.name} › {n.replace(chr(92), '/')}", sha(z.read(n))))
+
+          start, end = "<!-- sha256-start -->", "<!-- sha256-end -->"
+          block = [start, "### 🔒 SHA-256-Prüfsummen", "",
+                   "Prüfe deinen Download, bevor du FormatFix startest. Nur wenn der Wert exakt übereinstimmt, ist die Datei echt und unverändert.", "",
+                   "| Datei | SHA-256 |", "|---|---|"]
+          block += [f"| `{n}` | `{h}` |" for n, h in rows]
+          block += ["", "**So prüfst du (Windows, PowerShell):**", "```powershell",
+                    "Get-FileHash .\\FormatFix.zip -Algorithm SHA256", "```", end]
+          block = "\n".join(block)
+
+          tag, repo = os.environ["TAG"], os.environ["REPO"]
+          body = subprocess.run(["gh", "release", "view", tag, "--repo", repo, "--json", "body", "-q", ".body"],
+                                check=True, capture_output=True, text=True).stdout.rstrip()
+          if start in body and end in body:
+              body = body[:body.index(start)].rstrip() + "\n\n" + block + body[body.index(end) + len(end):]
+          else:
+              body = body + "\n\n" + block
+          pathlib.Path("body.md").write_text(body, encoding="utf-8")
+          subprocess.run(["gh", "release", "edit", tag, "--repo", repo, "--notes-file", "body.md"], check=True)
+          for n, h in rows:
+              print(h, n)
+          EOF

@@ -39,6 +39,10 @@ def find_soffice():
     return shutil.which("soffice")
 
 
+# Sicherheit: präparierte Mediendateien (z. B. mit eingebetteten Playlists) dürfen
+# ffmpeg nicht dazu bringen, Adressen aus dem Internet oder Netzwerk aufzurufen.
+SAFE_INPUT = ["-protocol_whitelist", "file,pipe"]
+
 # Unter Windows kein schwarzes Konsolenfenster aufblitzen lassen
 NO_WINDOW = 0x08000000 if os.name == "nt" else 0
 
@@ -156,7 +160,8 @@ def convert_media(src, dst):
         audio2midi.convert_to_midi(src, dst, ffmpeg, NO_WINDOW)
         return
     try:
-        subprocess.run([ffmpeg, "-y", "-i", str(src), str(dst)],
+        # Sicherheit: ffmpeg darf nur lokale Dateien lesen, nichts aus dem Netz nachladen
+        subprocess.run([ffmpeg, "-y", "-nostdin", *SAFE_INPUT, "-i", str(src), str(dst)],
                        check=True, capture_output=True, creationflags=NO_WINDOW)
     except subprocess.CalledProcessError:
         if dst.exists():
