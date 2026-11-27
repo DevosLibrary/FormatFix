@@ -49,10 +49,11 @@ FormatFix macht dasselbe **direkt auf deinem PC**:
 
 ## Download & Einrichtung
 
-1. Unter **[Releases](../../releases)** die neueste `FormatFix.zip` herunterladen
-2. Entpacken (Rechtsklick → „Alle extrahieren“) und den Ordner an einen festen Ort legen
-3. `FormatFix.exe` starten – bei der Windows-Warnung „Weitere Informationen“ → „Trotzdem ausführen“
-4. Unten rechts erscheint eine bunte Wolke. Rechtsklick → **„Mit Windows starten“** anhaken
+1. Unter **[Releases](../../releases)** die neueste `FormatFix.zip` herunterladen – **nur dort**, nicht von anderen Seiten
+2. Download prüfen (empfohlen): siehe [Echtheit prüfen](#echtheit-prüfen-sha-256)
+3. Entpacken (Rechtsklick → „Alle extrahieren“) und den Ordner an einen festen Ort legen
+4. `FormatFix.exe` starten – bei der Windows-Warnung „Weitere Informationen“ → „Trotzdem ausführen“
+5. Unten rechts erscheint eine bunte Wolke. Rechtsklick → **„Mit Windows starten“** anhaken
 
 **Benutzen:** Datei im Explorer markieren → <kbd>Strg</kbd>+<kbd>C</kbd> → <kbd>Strg</kbd>+<kbd>Alt</kbd>+<kbd>K</kbd> → Format anklicken.
 Die neue Datei landet im selben Ordner wie das Original.
@@ -67,6 +68,18 @@ Systemvoraussetzung: Windows 10 oder 11 (64 Bit).
 - Autostart nur für den eigenen Windows-Benutzer, ohne Administratorrechte
 
 Prüf es gern selbst – der komplette Code liegt in diesem Repository.
+
+### Echtheit prüfen (SHA-256)
+
+Bei jedem Release stehen in der Beschreibung die **SHA-256-Prüfsummen** der `FormatFix.zip` und der `FormatFix.exe`. Sie werden automatisch von GitHub berechnet und bei jedem Update neu veröffentlicht.
+
+So prüfst du deinen Download (PowerShell im Download-Ordner öffnen):
+
+```powershell
+Get-FileHash .\FormatFix.zip -Algorithm SHA256
+```
+
+Stimmt der angezeigte Wert **exakt** mit dem im Release überein, ist die Datei echt und unverändert. Weicht er ab: nicht starten, löschen und neu von GitHub herunterladen.
 
 ## Selbst bauen
 
