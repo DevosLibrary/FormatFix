@@ -60,7 +60,7 @@ def _get_session():
 # ---------- Audio laden (über ffmpeg, das FormatFix ohnehin mitbringt) ----------
 def load_audio(path, ffmpeg, creationflags=0):
     proc = subprocess.run(
-        [ffmpeg, "-v", "error", "-i", str(path), "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
+        [ffmpeg, "-nostdin", "-v", "error", "-protocol_whitelist", "file,pipe", "-i", str(path), "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
         capture_output=True, creationflags=creationflags,
     )
     if proc.returncode != 0 or not proc.stdout:
